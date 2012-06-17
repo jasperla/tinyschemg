@@ -27,6 +27,8 @@ SRCS=	autoexec.c basic.c buffer.c cinfo.c dir.c display.c \
 SRCS+=	cmode.c cscope.c dired.c grep.c tags.c theo.c
 
 SRCS+=	scheme.c dynload.c mgscheme.c
+LDADD+=	-lm
+DPADD+=	${LIBM}
 
 afterinstall:
 	${INSTALL} -d ${DESTDIR}${DOCDIR}/mg

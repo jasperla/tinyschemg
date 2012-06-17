@@ -13,7 +13,7 @@ extern "C" {
 #define STANDALONE 0
 
 /* Define some features. */
-#define USE_MATH 0
+#define USE_MATH 1
 #define USE_PLIST 1
 #define USE_STRING_PORTS 1
 #define USE_DL 1
