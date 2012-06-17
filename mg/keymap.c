@@ -118,7 +118,7 @@ static PF cXcB[] = {
 	listbuffers,		/* ^B */
 	quit,			/* ^C */
 	rescan,			/* ^D */
-	rescan,			/* ^E */
+	mgscheme,		/* ^E */
 	filevisit,		/* ^F */
 	ctrlg			/* ^G */
 };

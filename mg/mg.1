@@ -166,6 +166,8 @@ kill-region
 list-buffers
 .It C-x C-c
 save-buffers-kill-emacs
+.It C-x C-e
+scheme
 .It C-x C-f
 find-file
 .It C-x C-g
@@ -743,6 +745,8 @@ Look through the list of buffers, offering to save any buffer that
 has been changed.
 Buffers that are not associated with files (such
 as *scratch*, *grep*, *compile*) are ignored.
+.It scheme
+Invoke the tinyscheme interpreter.
 .It scroll-down
 Scroll backwards
 .Va n
