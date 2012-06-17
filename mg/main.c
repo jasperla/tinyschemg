@@ -75,11 +75,13 @@ main(int argc, char **argv)
 		extern void theo_init(void);
 		extern void cmode_init(void);
 		extern void dired_init(void);
+		extern void mgscheme_init(void);
 
 		dired_init();
 		grep_init();
 		theo_init();
 		cmode_init();
+		mgscheme_init();
 	}
 
 	if (init_fcn_name &&

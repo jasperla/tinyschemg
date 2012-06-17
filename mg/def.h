@@ -534,6 +534,10 @@ int		csprevfile(int, int);
 int		csprevmatch(int, int);
 int		cscreatelist(int, int);
 
+
+int		 mgscheme(int, int);
+
+
 /* extend.c X */
 int		 insert(int, int);
 int		 bindtokey(int, int);

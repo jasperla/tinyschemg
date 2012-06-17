@@ -13,7 +13,7 @@ DPADD+=	${LIBCURSES} ${LIBUTIL}
 #	XKEYS		-- use termcap function key definitions.
 #				note: XKEYS and bsmap mode do _not_ get along.
 #
-CFLAGS+=-Wall -DFKEYS -DREGEX -DXKEYS
+CFLAGS+=-Wall -DFKEYS -DREGEX -DXKEYS -O0 -g
 
 SRCS=	autoexec.c basic.c buffer.c cinfo.c dir.c display.c \
 	echo.c extend.c file.c fileio.c funmap.c help.c kbd.c keymap.c \
@@ -25,6 +25,8 @@ SRCS=	autoexec.c basic.c buffer.c cinfo.c dir.c display.c \
 # More or less standalone extensions.
 #
 SRCS+=	cmode.c cscope.c dired.c grep.c tags.c theo.c
+
+SRCS+=	scheme.c dynload.c mgscheme.c
 
 afterinstall:
 	${INSTALL} -d ${DESTDIR}${DOCDIR}/mg

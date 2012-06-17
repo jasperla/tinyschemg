@@ -197,6 +197,7 @@ static struct funmap functnames[] = {
 	{csnextfile, "cscope-next-file",},
 	{csprevfile, "cscope-prev-file",},
 	{cscreatelist, "cscope-create-list-of-files-to-index"},
+	{mgscheme, "scheme",},
 	{NULL, NULL,}
 };
 
