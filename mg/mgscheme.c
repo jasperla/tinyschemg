@@ -8,6 +8,7 @@
 scheme sc0;
 scheme *sc;
 
+#define	_PATH_INIT_SCM	"/usr/share/mg/init.scm"
 
 #define is_string(x) sc->vptr->is_string(x)
 #define strval(x) sc->vptr->string_value(x)
@@ -45,7 +46,7 @@ mgscheme_init(void)
 	scheme_init(sc);
 	scheme_set_input_port_file(sc, stdin);
 	scheme_set_output_port_file(sc, stdout);
-	scheme_load_string(sc, "(load \"init.scm\")");
+	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
 	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
 	    mk_foreign_func(sc, scm_load_ext));
 	scheme_define(sc, sc->global_env,

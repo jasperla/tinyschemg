@@ -32,7 +32,10 @@ DPADD+=	${LIBM}
 
 afterinstall:
 	${INSTALL} -d ${DESTDIR}${DOCDIR}/mg
-	${INSTALL} -m ${NONBINMODE} -c ${.CURDIR}/tutorial \
+	${INSTALL} -m ${DOCMODE} -c ${.CURDIR}/tutorial \
 		${DESTDIR}${DOCDIR}/mg
+	${INSTALL} -d ${DESTDIR}${SHAREDIR}/mg
+	${INSTALL} -m ${SHAREMODE} -c ${.CURDIR}/init.scm \
+		${DESTDIR}${SHAREDIR}/mg
 
 .include <bsd.prog.mk>
