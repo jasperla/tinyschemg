@@ -12,6 +12,7 @@ branches
 todo
 ----
 
-- allow to eval the current buffer
+- allow to eval the current buffer (C-x C-e)
 - implement a mode where you can actually interact with scheme,
-  instead of eval'ing the minibuffer
+  instead of eval'ing the minibuffer (like M-x theo)
+  - M-x scheme-mode

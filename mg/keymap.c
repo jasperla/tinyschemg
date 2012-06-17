@@ -55,7 +55,7 @@ static PF cCsc[] = {
 	rescan,			/* o */
 	csprevmatch,		/* p */
 	rescan,			/* q */
-	rescan, 		/* r */	
+	rescan, 		/* r */
 	cssymbol,		/* s */
 	csfindtext		/* t */
 };
@@ -118,14 +118,14 @@ static PF cXcB[] = {
 	listbuffers,		/* ^B */
 	quit,			/* ^C */
 	rescan,			/* ^D */
-	mgscheme,		/* ^E */
+	rescan,			/* ^E */
 	filevisit,		/* ^F */
 	ctrlg			/* ^G */
 };
 
 static PF cXcL[] = {
 	lowerregion,		/* ^L */
-	rescan,			/* ^M */
+	mgscheme,		/* ^M */
 	rescan,			/* ^N */
 	deblank,		/* ^O */
 	rescan,			/* ^P */
