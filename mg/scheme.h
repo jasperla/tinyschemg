@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 #ifdef __OpenBSD__
+/* Embedded interpreter. */
 # define STANDALONE 0
 
 /* Define some features. */
