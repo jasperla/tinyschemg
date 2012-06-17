@@ -1,3 +1,4 @@
+/* $OpenBSD$ */
 
 #include "def.h"
 #include "scheme-private.h"

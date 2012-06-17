@@ -1,3 +1,5 @@
+/* $OpenBSD$ */
+
 /* SCHEME.H */
 
 #ifndef _SCHEME_H

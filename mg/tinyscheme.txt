@@ -1240,4 +1240,5 @@ Only in tinyscheme-1.32-new/: scheme.o
 >     case OP_BLOCKP:     /* block? */
 >          s_retbool(ismemblock(car(sc->args)));
 
+# $OpenBSD$
 # cat COPYING MiniSCHEMETribute.txt CHANGES Manual.txt BUILDING hack.txt > tinyscheme.txt

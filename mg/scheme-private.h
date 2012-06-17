@@ -1,3 +1,5 @@
+/* $OpenBSD$ */
+
 /* scheme-private.h */
 
 #ifndef _SCHEME_PRIVATE_H

@@ -1,3 +1,5 @@
+/* $OpenBSD$ */
+
 /* T I N Y S C H E M E    1 . 3 9
  *   Dimitrios Souflis (dsouflis@acm.org)
  *   Based on MiniScheme (original credits follow)

@@ -1,3 +1,5 @@
+/* $OpenBSD$ */
+
 /* dynload.c Dynamic Loader for TinyScheme */
 /* Original Copyright (c) 1999 Alexander Shendi     */
 /* Modifications for NT and dl_* interface, scm_load_ext: D. Souflis */

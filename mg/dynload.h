@@ -1,3 +1,5 @@
+/* $OpenBSD$ */
+
 /* dynload.h */
 /* Original Copyright (c) 1999 Alexander Shendi     */
 /* Modifications for NT and dl_* interface: D. Souflis */
