@@ -15,3 +15,4 @@ todo
 - allow to eval the current buffer
 - implement a mode where you can actually interact with scheme,
   instead of eval'ing the minibuffer
+- find a place to store init.scm (/usr/share/mg/ ?)
