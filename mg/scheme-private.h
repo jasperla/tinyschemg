@@ -7,13 +7,30 @@
 /*------------------ Ugly internals -----------------------------------*/
 /*------------------ Of interest only to FFI users --------------------*/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-struct port {
+enum scheme_port_kind {
+  port_free=0,
+  port_file=1,
+  port_string=2,
+  port_srfi6=4,
+  port_input=16,
+  port_output=32,
+  port_saw_EOF=64,
+};
+
+typedef struct port {
   unsigned char kind;
   union {
     struct {
       FILE *file;
       int closeit;
+#if SHOW_ERROR_LINE
+      int curr_line;
+      char *filename;
+#endif
     } stdio;
     struct {
       char *start;
@@ -21,7 +38,7 @@ struct port {
       char *curr;
     } string;
   } rep;
-};
+} port;
 
 /* cell structure */
 struct cell {
@@ -50,8 +67,9 @@ func_dealloc free;
 int retcode;
 int tracing;
 
-#define CELL_SEGSIZE    50000  /* # of cells in one segment */
-#define CELL_NSEGMENT   100    /* # of segments for cells */
+
+#define CELL_SEGSIZE    5000  /* # of cells in one segment */
+#define CELL_NSEGMENT   10    /* # of segments for cells */
 char *alloc_seg[CELL_NSEGMENT];
 pointer cell_seg[CELL_NSEGMENT];
 int     last_cell_seg;
@@ -76,6 +94,7 @@ struct cell _EOF_OBJ;
 pointer EOF_OBJ;         /* special cell representing end-of-file object */
 pointer oblist;          /* pointer to symbol table */
 pointer global_env;      /* pointer to global environment */
+pointer c_nest;          /* stack for nested calls from C */
 
 /* global pointers to special symbols */
 pointer LAMBDA;               /* pointer to syntax lambda */
@@ -88,6 +107,7 @@ pointer FEED_TO;         /* => */
 pointer COLON_HOOK;      /* *colon-hook* */
 pointer ERROR_HOOK;      /* *error-hook* */
 pointer SHARP_HOOK;  /* *sharp-hook* */
+pointer COMPILE_HOOK;  /* *compile-hook* */
 
 pointer free_cell;       /* pointer to top of free cells */
 long    fcells;          /* # of free cells */
@@ -108,7 +128,8 @@ char    no_memory;       /* Whether mem. alloc. has failed */
 
 #define LINESIZE 1024
 char    linebuff[LINESIZE];
-char    strbuff[256];
+#define STRBUFFSIZE 256
+char    strbuff[STRBUFFSIZE];
 
 FILE *tmpfp;
 int tok;
@@ -125,11 +146,11 @@ int dump_size;		 /* number of frames allocated for dump stack */
 };
 
 /* operator code */
-enum scheme_opcodes { 
-#define _OP_DEF(A,B,C,D,E,OP) OP, 
-#include "opdefines.h" 
-  OP_MAXDEFINED 
-}; 
+enum scheme_opcodes {
+#define _OP_DEF(A,B,C,D,E,OP) OP,
+#include "opdefines.h"
+  OP_MAXDEFINED
+};
 
 
 #define cons(sc,a,b) _cons(sc,a,b,0)
@@ -176,4 +197,14 @@ int is_environment(pointer p);
 int is_immutable(pointer p);
 void setimmutable(pointer p);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif
+
+/*
+Local variables:
+c-file-style: "k&r"
+End:
+*/

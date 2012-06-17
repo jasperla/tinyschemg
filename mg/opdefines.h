@@ -17,6 +17,7 @@
 #endif
     _OP_DEF(opexe_0, 0,                                0,  0,       0,                               OP_DOMACRO          )
     _OP_DEF(opexe_0, 0,                                0,  0,       0,                               OP_LAMBDA           )
+    _OP_DEF(opexe_0, 0,                                0,  0,       0,                               OP_LAMBDA1          )
     _OP_DEF(opexe_0, "make-closure",                   1,  2,       TST_PAIR TST_ENVIRONMENT,        OP_MKCLOSURE        )
     _OP_DEF(opexe_0, 0,                                0,  0,       0,                               OP_QUOTE            )
     _OP_DEF(opexe_0, 0,                                0,  0,       0,                               OP_DEF0             )
@@ -100,7 +101,7 @@
     _OP_DEF(opexe_2, "make-vector",                    1,  2,       TST_NATURAL TST_ANY,             OP_MKVECTOR         )
     _OP_DEF(opexe_2, "vector-length",                  1,  1,       TST_VECTOR,                      OP_VECLEN           )
     _OP_DEF(opexe_2, "vector-ref",                     2,  2,       TST_VECTOR TST_NATURAL,          OP_VECREF           )
-    _OP_DEF(opexe_2, "vector-set!",                    3,  3,       TST_VECTOR TST_NATURAL TST_ANY,        OP_VECSET     )
+    _OP_DEF(opexe_2, "vector-set!",                    3,  3,       TST_VECTOR TST_NATURAL TST_ANY,  OP_VECSET           )
     _OP_DEF(opexe_3, "not",                            1,  1,       TST_NONE,                        OP_NOT              )
     _OP_DEF(opexe_3, "boolean?",                       1,  1,       TST_NONE,                        OP_BOOLP            )
     _OP_DEF(opexe_3, "eof-object?",                    1,  1,       TST_NONE,                        OP_EOFOBJP          )
@@ -141,7 +142,7 @@
     _OP_DEF(opexe_4, "newline",                        0,  1,       TST_OUTPORT,                     OP_NEWLINE          )
     _OP_DEF(opexe_4, "error",                          1,  INF_ARG, TST_NONE,                        OP_ERR0             )
     _OP_DEF(opexe_4, 0,                                0,  0,       0,                               OP_ERR1             )
-    _OP_DEF(opexe_4, "reverse",                        1,  1,       TST_PAIR,                        OP_REVERSE          )
+    _OP_DEF(opexe_4, "reverse",                        1,  1,       TST_LIST,                        OP_REVERSE          )
     _OP_DEF(opexe_4, "list*",                          1,  INF_ARG, TST_NONE,                        OP_LIST_STAR        )
     _OP_DEF(opexe_4, "append",                         0,  INF_ARG, TST_NONE,                        OP_APPEND           )
     _OP_DEF(opexe_4, "put",                            3,  3,       TST_NONE,                        OP_PUT              )
@@ -158,8 +159,9 @@
     _OP_DEF(opexe_4, "open-input-output-file",         1,  1,       TST_STRING,                      OP_OPEN_INOUTFILE   )
 #if USE_STRING_PORTS
     _OP_DEF(opexe_4, "open-input-string",              1,  1,       TST_STRING,                      OP_OPEN_INSTRING    )
-    _OP_DEF(opexe_4, "open-output-string",             1,  1,       TST_STRING,                      OP_OPEN_OUTSTRING   )
     _OP_DEF(opexe_4, "open-input-output-string",       1,  1,       TST_STRING,                      OP_OPEN_INOUTSTRING )
+    _OP_DEF(opexe_4, "open-output-string",             0,  1,       TST_STRING,                      OP_OPEN_OUTSTRING   )
+    _OP_DEF(opexe_4, "get-output-string",              1,  1,       TST_OUTPORT,                     OP_GET_OUTSTRING    )
 #endif
     _OP_DEF(opexe_4, "close-input-port",               1,  1,       TST_INPORT,                      OP_CLOSE_INPORT     )
     _OP_DEF(opexe_4, "close-output-port",              1,  1,       TST_OUTPORT,                     OP_CLOSE_OUTPORT    )
