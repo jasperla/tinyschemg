@@ -9,16 +9,16 @@
 extern "C" {
 #endif
 
-#ifdef __OpenBSD__
 /* Embedded interpreter. */
-# define STANDALONE 0
+#define STANDALONE 0
 
 /* Define some features. */
-# define USE_MATH 0
-# define USE_PLIST 1
-# define USE_STRING_PORTS 1
-# define USE_DL 1
-#endif
+#define USE_MATH 0
+#define USE_PLIST 1
+#define USE_STRING_PORTS 1
+#define USE_DL 1
+#define	USE_COLON_HOOK 1
+#define	USE_ERROR_HOOK 1
 
 /*
  * Default values for #define'd symbols
