@@ -126,7 +126,7 @@ pointer scm_load_ext(scheme *sc, pointer args)
 
 static void make_filename(const char *name, char *filename) {
  strcpy(filename,name);
- strcat(filename,SUFFIX);
+ (void)strlcat(filename,SUFFIX,sizeof(filename));
 }
 
 static void make_init_fn(const char *name, char *init_fn) {
@@ -137,7 +137,7 @@ static void make_init_fn(const char *name, char *init_fn) {
      p++;
  }
  strcpy(init_fn,"init_");
- strcat(init_fn,p);
+ (void)strlcat(init_fn,p,sizeof(init_fn));
 }
 
 
