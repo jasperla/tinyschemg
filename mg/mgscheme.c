@@ -43,7 +43,7 @@ mgscheme_insert(scheme *sc, pointer args)
 	return sc->T;
 }
 
-int
+void
 mgscheme_load_user_init(void)
 {
 	struct stat sb;
@@ -53,15 +53,15 @@ mgscheme_load_user_init(void)
 
 	path = adjustname(_PATH_MG_DIR"/init.scm", TRUE);
 	if (stat(path, &sb) == -1 && errno == ENOENT)
-		return(FALSE);
+		return;
 
 	ret = snprintf(init_scm_cmd, sizeof(init_scm_cmd), "(load \"%s\")", path);
 	if (ret < 0 || ret >= sizeof(init_scm_cmd))
-		return(FALSE);
+		return;
 
 	scheme_load_string(sc, init_scm_cmd);
 
-	return(TRUE);
+	return;
 }
 
 void
@@ -71,14 +71,14 @@ mgscheme_init(void)
 	scheme_init(sc);
 	scheme_set_input_port_file(sc, stdin);
 	scheme_set_output_port_file(sc, stdout);
-	if (mgscheme_load_user_init() == FALSE)
-		scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
-
+	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
 	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
 	    mk_foreign_func(sc, scm_load_ext));
 	scheme_define(sc, sc->global_env,
 	    mk_symbol(sc, "insert"),
 	    mk_foreign_func(sc, mgscheme_insert));
+	/* Now try to load a user provided ~/.mg.d/init.scm */
+	mgscheme_load_user_init();
 }
 
 int
