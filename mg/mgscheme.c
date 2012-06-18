@@ -1,14 +1,18 @@
 /* $OpenBSD$ */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <ctype.h>
+
 #include "def.h"
 #include "scheme-private.h"
 #include "dynload.h"
-#include <ctype.h>
+#include "pathnames.h"
 
 scheme sc0;
 scheme *sc;
-
-#define	_PATH_INIT_SCM	"/usr/share/mg/init.scm"
 
 #define is_string(x) sc->vptr->is_string(x)
 #define strval(x) sc->vptr->string_value(x)
@@ -39,6 +43,27 @@ mgscheme_insert(scheme *sc, pointer args)
 	return sc->T;
 }
 
+int
+mgscheme_load_user_init(void)
+{
+	struct stat sb;
+	static char init_scm_cmd[NFILEN];
+	char *path;
+	int ret;
+
+	path = adjustname(_PATH_MG_DIR"/init.scm", TRUE);
+	if (stat(path, &sb) == -1 && errno == ENOENT)
+		return(FALSE);
+
+	ret = snprintf(init_scm_cmd, sizeof(init_scm_cmd), "(load \"%s\")", path);
+	if (ret < 0 || ret >= sizeof(init_scm_cmd))
+		return(FALSE);
+
+	scheme_load_string(sc, init_scm_cmd);
+
+	return(TRUE);
+}
+
 void
 mgscheme_init(void)
 {
@@ -46,7 +71,9 @@ mgscheme_init(void)
 	scheme_init(sc);
 	scheme_set_input_port_file(sc, stdin);
 	scheme_set_output_port_file(sc, stdout);
-	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
+	if (mgscheme_load_user_init() == FALSE)
+		scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
+
 	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
 	    mk_foreign_func(sc, scm_load_ext));
 	scheme_define(sc, sc->global_env,

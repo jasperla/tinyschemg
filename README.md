@@ -18,5 +18,3 @@ todo
   - M-x scheme-mode
 - show the result of the M-x scheme command in the minibuffer
   - ewprintf();
-- rework init.scm loading, and try to load ~/.mg.d/init.scm first,
-  before trying to load the system-wide init.scm
