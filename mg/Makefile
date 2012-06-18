@@ -1,4 +1,4 @@
-# $OpenBSD: Makefile,v 1.26 2012/06/07 15:15:04 lum Exp $
+# $OpenBSD: Makefile,v 1.27 2012/06/18 07:13:26 jasper Exp $
 
 PROG=	mg
 
