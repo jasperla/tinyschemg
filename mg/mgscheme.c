@@ -41,7 +41,7 @@ scheme *sc;
 #define carval(x) sc->vptr->pair_car(x)
 #define cdrval(x) sc->vptr->pair_cdr(x)
 
-FILE *fp;
+static char outbuf[BUFSIZ];
 
 static pointer
 mgscheme_insert(scheme *sc, pointer args)
@@ -88,12 +88,9 @@ mgscheme_load_user_init(void)
 void
 mgscheme_init(void)
 {
-	fp = fopen("/dev/stdout", "w");
-
        	sc = &sc0;
 	scheme_init(sc);
-	scheme_set_input_port_file(sc, stdin);
-	scheme_set_output_port_file(sc, fp);
+	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
 	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
 	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
 	    mk_foreign_func(sc, scm_load_ext));
@@ -107,19 +104,20 @@ mgscheme_init(void)
 int
 mgscheme(int f, int n)
 {
+	struct buffer *schemebuf;
 	char *bufp;
 	char buf[NFILEN];
 
-	char *buff = NULL;
-	int len = 0;
+	bzero(buf, sizeof(buf));
 
 	if ((bufp = eread("Eval scheme: ", buf, NFILEN, EFNEW )) == NULL)
 		return (ABORT);
 	scheme_load_string(sc, bufp);
-	ewprintf("Scheme eval result: ");
+	schemebuf = bfind("*scheme*", TRUE);
 
-	fseek(fp, SEEK_SET, 0);
-
-	return (TRUE);
+	if (schemebuf == NULL)
+		return (ABORT);
+	addline(schemebuf, outbuf);
+	return (popbuftop(schemebuf, WNONE));
 }
 
