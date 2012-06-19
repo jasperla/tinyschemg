@@ -114,6 +114,7 @@ mgscheme(int f, int n)
 		return (ABORT);
 	scheme_load_string(sc, bufp);
 	schemebuf = bfind("*scheme*", TRUE);
+	schemebuf->b_flag |= BFREADONLY;
 
 	if (schemebuf == NULL)
 		return (ABORT);
