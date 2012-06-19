@@ -108,8 +108,6 @@ mgscheme(int f, int n)
 	char *bufp;
 	char buf[NFILEN];
 
-	bzero(buf, sizeof(buf));
-
 	if ((bufp = eread("Eval scheme: ", buf, NFILEN, EFNEW )) == NULL)
 		return (ABORT);
 	scheme_load_string(sc, bufp);
@@ -118,7 +116,7 @@ mgscheme(int f, int n)
 	 * If the Scheme command contains a function call to "insert",
 	 * there is no point in outputting the result in the *scheme* buffer.
 	 */
-	if (strncmp(bufp, "(insert", 7) == 0)
+	if (strncmp(bufp, "(insert ", 9) == TRUE)
 		return (TRUE);
 
 	schemebuf = bfind("*scheme*", TRUE);
@@ -127,7 +125,11 @@ mgscheme(int f, int n)
 	if (schemebuf == NULL)
 		return (ABORT);
 
-	addline(schemebuf, outbuf);
+	if (addline(schemebuf, outbuf) == FALSE) {
+		ewprintf("Could not insert Scheme result into *scheme*");
+		return (ABORT);
+	}
+
 	return (popbuftop(schemebuf, WNONE));
 }
 
