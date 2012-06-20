@@ -125,6 +125,9 @@ mgscheme(int f, int n)
 	if (schemebuf == NULL)
 		return (ABORT);
 
+	/* Convert a line to an abstracted mg line. */
+	outbuf[strcspn(outbuf, "\n")] = '\0';
+
 	if (addline(schemebuf, outbuf) == FALSE) {
 		ewprintf("Could not insert Scheme result into *scheme*");
 		return (ABORT);
