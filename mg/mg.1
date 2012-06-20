@@ -757,7 +757,9 @@ has been changed.
 Buffers that are not associated with files (such
 as *scratch*, *grep*, *compile*) are ignored.
 .It scheme
-Invoke the tinyscheme interpreter.
+Invoke the tinyscheme interpreter, results and errors are inserted
+into the *scheme* buffer, unless the restult is to be inserted into
+the current buffer.
 .It scroll-down
 Scroll backwards
 .Va n
