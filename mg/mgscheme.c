@@ -43,6 +43,7 @@ scheme *sc;
 
 static char outbuf[BUFSIZ];
 
+#ifdef USE_DL
 static pointer
 mgscheme_insert(scheme *sc, pointer args)
 {
@@ -63,6 +64,7 @@ mgscheme_insert(scheme *sc, pointer args)
 	}
 	return sc->T;
 }
+#endif
 
 void
 mgscheme_load_user_init(void)
@@ -92,11 +94,13 @@ mgscheme_init(void)
 	scheme_init(sc);
 	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
 	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
+#ifdef USE_DL
 	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
 	    mk_foreign_func(sc, scm_load_ext));
 	scheme_define(sc, sc->global_env,
 	    mk_symbol(sc, "insert"),
 	    mk_foreign_func(sc, mgscheme_insert));
+#endif
 	/* Now try to load a user provided ~/.mg.d/init.scm */
 	mgscheme_load_user_init();
 }

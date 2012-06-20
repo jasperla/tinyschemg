@@ -26,9 +26,17 @@ SRCS=	autoexec.c basic.c buffer.c cinfo.c dir.c display.c \
 #
 SRCS+=	cmode.c cscope.c dired.c grep.c tags.c theo.c
 
-SRCS+=	scheme.c dynload.c mgscheme.c
+# Tinyscheme extension
+SRCS+=	scheme.c mgscheme.c
 LDADD+=	-lm
 DPADD+=	${LIBM}
+
+# No non-ELF arches support shared objects.
+.include <bsd.own.mk>
+.if ${ELF_TOOLCHAIN} == "yes"
+CFLAGS+=-DUSE_DL
+SRCS += dynload.c
+.endif
 
 afterinstall:
 	${INSTALL} -d ${DESTDIR}${DOCDIR}/mg

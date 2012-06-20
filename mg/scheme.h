@@ -14,11 +14,10 @@ extern "C" {
 /* Embedded interpreter. */
 #define STANDALONE 0
 
-/* Define some features. */
+/* Define some features, USE_DL is decided by Makefile */
 #define USE_MATH 1
 #define USE_PLIST 1
 #define USE_STRING_PORTS 1
-#define USE_DL 1
 #define	USE_COLON_HOOK 1
 #define	USE_ERROR_HOOK 1
 
