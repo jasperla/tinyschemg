@@ -33,7 +33,6 @@
 /pathnames.h/1.1/Mon Jun 18 07:14:55 2012//
 /random.c/1.31/Fri May 18 02:13:44 2012//
 /re_search.c/1.26/Fri Jan 21 19:10:13 2011//
-/region.c/1.30/Wed Apr 11 17:51:10 2012//
 /search.c/1.40/Fri May 25 05:16:59 2012//
 /spawn.c/1.11/Tue Aug  1 22:16:03 2006//
 /sysdef.h/1.16/Mon Sep 15 16:11:35 2008//
@@ -49,5 +48,6 @@
 /window.c/1.28/Mon Aug  1 12:15:23 2011//
 /word.c/1.15/Mon Sep 15 16:11:35 2008//
 /yank.c/1.10/Fri Jul 15 16:50:52 2011//
-/mg.1/1.64/Mon Jun 18 14:00:45 2012//
+/region.c/1.30/Tue Jun 19 19:30:54 2012//
+/mg.1/1.66/Wed Jun 20 07:29:19 2012//
 D
