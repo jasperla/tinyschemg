@@ -120,10 +120,12 @@ mgscheme(int f, int n)
 		return (TRUE);
 
 	schemebuf = bfind("*scheme*", TRUE);
-	schemebuf->b_flag |= BFREADONLY;
 
 	if (schemebuf == NULL)
 		return (ABORT);
+
+	schemebuf->b_flag |= BFREADONLY;
+
 
 	/* Convert a line to an abstracted mg line. */
 	outbuf[strcspn(outbuf, "\n")] = '\0';
