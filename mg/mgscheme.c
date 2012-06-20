@@ -124,8 +124,10 @@ mgscheme(int f, int n)
 	if (schemebuf == NULL)
 		return (ABORT);
 
-	schemebuf->b_flag |= BFREADONLY;
+	if (bclear(schemebuf) == FALSE)
+		ewprintf("Failed to clear *scheme* buffer.");
 
+	schemebuf->b_flag |= BFREADONLY;
 
 	/* Convert a line to an abstracted mg line. */
 	outbuf[strcspn(outbuf, "\n")] = '\0';
