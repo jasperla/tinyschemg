@@ -109,7 +109,7 @@ int
 mgscheme(int f, int n)
 {
 	struct buffer *schemebuf;
-	char *bufp;
+	char *bufp, *p, *q;
 	char buf[NFILEN];
 
 	if ((bufp = eread("Eval scheme: ", buf, NFILEN, EFNEW )) == NULL)
@@ -134,7 +134,12 @@ mgscheme(int f, int n)
 	schemebuf->b_flag |= BFREADONLY;
 
 	/* Convert a line to an abstracted mg line. */
-	outbuf[strcspn(outbuf, "\n")] = '\0';
+	p = q = outbuf;
+	while ((q = strchr(p, '\n')) != NULL) {
+		*q++ = '\0';
+		addline(schemebuf, p);
+		p = q;
+	}
 
 	if (addline(schemebuf, outbuf) == FALSE) {
 		ewprintf("Could not insert Scheme result into *scheme*");
