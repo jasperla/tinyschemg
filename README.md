@@ -17,3 +17,4 @@ todo
   instead of eval'ing the minibuffer (like M-x theo)
   - M-x scheme-mode
 - clear output buffer string before putting more stuff onto it.
+- use proper way to convert lines into mg abstracted lines
