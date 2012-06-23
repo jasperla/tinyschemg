@@ -112,6 +112,10 @@ mgscheme(int f, int n)
 	char *bufp, *p, *q;
 	char buf[NFILEN];
 
+	/* Reset the output buffer. XXX: Doesn't properly deal with error strings yet. */
+	sc->outport=sc->NIL;
+	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
+
 	if ((bufp = eread("Eval scheme: ", buf, NFILEN, EFNEW )) == NULL)
 		return (ABORT);
 	scheme_load_string(sc, bufp);

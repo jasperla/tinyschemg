@@ -16,5 +16,4 @@ todo
 - implement a mode where you can actually interact with scheme,
   instead of eval'ing the minibuffer (like M-x theo)
   - M-x scheme-mode
-- clear output buffer string before putting more stuff onto it.
 - expand mgscheme_insert() to also allow for inserting integers.
