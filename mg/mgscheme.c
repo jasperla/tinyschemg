@@ -124,7 +124,8 @@ mgscheme(int f, int n)
 	 * If the Scheme command contains a function call to "insert",
 	 * there is no point in outputting the result in the *scheme* buffer.
 	 */
-	if ((strncmp(bufp, "(insert ", 9) == TRUE) || (strncmp(bufp, "( insert", 10) == TRUE))
+	if ((strncmp(bufp, "(insert ", 9) == TRUE) ||
+	    (strncmp(bufp, "( insert ", 10) == TRUE))
 		return (TRUE);
 
 	schemebuf = bfind("*scheme*", TRUE);
