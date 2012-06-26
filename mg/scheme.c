@@ -16,12 +16,7 @@
 
 #define _SCHEME_SOURCE
 #include "scheme-private.h"
-#ifndef WIN32
 # include <unistd.h>
-#endif
-#ifdef WIN32
-#define snprintf _snprintf
-#endif
 #if USE_DL
 # include "dynload.h"
 #endif
