@@ -41,7 +41,7 @@ scheme *sc;
 #define carval(x) sc->vptr->pair_car(x)
 #define cdrval(x) sc->vptr->pair_cdr(x)
 
-static char outbuf[BUFSIZ];
+static char outbuf[8192];
 
 #ifdef USE_DL
 static pointer
