@@ -42,7 +42,7 @@ scheme *sc;
 #define cdrval(x) sc->vptr->pair_cdr(x)
 
 static char outbuf[8192];
-int lazy_init = -1;
+static int init;
 
 #ifdef USE_DL
 static pointer
@@ -91,26 +91,19 @@ mgscheme_load_user_init(void)
 void
 mgscheme_init(void)
 {
-	if (lazy_init < 0) {
-		/* Lalala, nothing to do yet. */
-		lazy_init = 1;
-	} else if (lazy_init) {
-		sc = &sc0;
-		scheme_init(sc);
-		scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
-		scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
+	sc = &sc0;
+	scheme_init(sc);
+	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
+	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
 #ifdef USE_DL
-		scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
-			      mk_foreign_func(sc, scm_load_ext));
-		scheme_define(sc, sc->global_env,
-			      mk_symbol(sc, "insert"),
-			      mk_foreign_func(sc, mgscheme_insert));
+	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
+	    mk_foreign_func(sc, scm_load_ext));
+	scheme_define(sc, sc->global_env,
+	    mk_symbol(sc, "insert"),
+	    mk_foreign_func(sc, mgscheme_insert));
 #endif
-		/* Now try to load a user provided ~/.mg.d/init.scm */
-		mgscheme_load_user_init();
-
-		lazy_init = 0;
-	}
+	/* Now try to load a user provided ~/.mg.d/init.scm */
+	mgscheme_load_user_init();
 }
 
 int
@@ -120,11 +113,14 @@ mgscheme(int f, int n)
 	char *bufp, *p, *q;
 	char buf[NFILEN];
 
-	/* Do we need to do the deferred initialization? */
-	mgscheme_init();
+	if (init == 0) {
+		mgscheme_init();
+		init = 1;
+	}
 
-	/* Reset the output buffer. XXX: Doesn't properly deal with error strings yet. */
+	/* Reset the output buffer. */
 	sc->outport=sc->NIL;
+	bzero(outbuf, sizeof(outbuf));
 	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
 
 	if ((bufp = eread("Eval scheme: ", buf, NFILEN, EFNEW )) == NULL)
@@ -157,7 +153,7 @@ mgscheme(int f, int n)
 		p = q;
 	}
 
-	if (addline(schemebuf, outbuf) == FALSE) {
+	if (addline(schemebuf, p) == FALSE) {
 		ewprintf("Could not insert Scheme result into *scheme*");
 		return (ABORT);
 	}
