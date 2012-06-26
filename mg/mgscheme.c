@@ -42,6 +42,7 @@ scheme *sc;
 #define cdrval(x) sc->vptr->pair_cdr(x)
 
 static char outbuf[8192];
+int lazy_init = -1;
 
 #ifdef USE_DL
 static pointer
@@ -90,19 +91,26 @@ mgscheme_load_user_init(void)
 void
 mgscheme_init(void)
 {
-       	sc = &sc0;
-	scheme_init(sc);
-	scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
-	scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
+	if (lazy_init < 0) {
+		/* Lalala, nothing to do yet. */
+		lazy_init = 1;
+	} else if (lazy_init) {
+		sc = &sc0;
+		scheme_init(sc);
+		scheme_set_output_port_string(sc, outbuf, outbuf + BUFSIZ);
+		scheme_load_string(sc, "(load \"" _PATH_INIT_SCM "\")");
 #ifdef USE_DL
-	scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
-	    mk_foreign_func(sc, scm_load_ext));
-	scheme_define(sc, sc->global_env,
-	    mk_symbol(sc, "insert"),
-	    mk_foreign_func(sc, mgscheme_insert));
+		scheme_define(sc, sc->global_env, mk_symbol(sc,"load-extension"),
+			      mk_foreign_func(sc, scm_load_ext));
+		scheme_define(sc, sc->global_env,
+			      mk_symbol(sc, "insert"),
+			      mk_foreign_func(sc, mgscheme_insert));
 #endif
-	/* Now try to load a user provided ~/.mg.d/init.scm */
-	mgscheme_load_user_init();
+		/* Now try to load a user provided ~/.mg.d/init.scm */
+		mgscheme_load_user_init();
+
+		lazy_init = 0;
+	}
 }
 
 int
@@ -111,6 +119,9 @@ mgscheme(int f, int n)
 	struct buffer *schemebuf;
 	char *bufp, *p, *q;
 	char buf[NFILEN];
+
+	/* Do we need to do the deferred initialization? */
+	mgscheme_init();
 
 	/* Reset the output buffer. XXX: Doesn't properly deal with error strings yet. */
 	sc->outport=sc->NIL;
