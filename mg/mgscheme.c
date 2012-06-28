@@ -110,7 +110,8 @@ int
 mgscheme(int f, int n)
 {
 	struct buffer *schemebuf;
-	char *bufp, *p, *q;
+	static char *p, *q;
+	char *bufp;
 	char buf[NFILEN];
 
 	if (init == 0) {
@@ -149,7 +150,10 @@ mgscheme(int f, int n)
 	p = q = outbuf;
 	while ((q = strchr(p, '\n')) != NULL) {
 		*q++ = '\0';
-		addline(schemebuf, p);
+		if (addline(schemebuf, p) == FALSE) {
+			ewprintf("Could not insert Scheme result into *scheme*");
+			return (ABORT);
+		}
 		p = q;
 	}
 

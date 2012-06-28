@@ -13,7 +13,7 @@ DPADD+=	${LIBCURSES} ${LIBUTIL}
 #	XKEYS		-- use termcap function key definitions.
 #				note: XKEYS and bsmap mode do _not_ get along.
 #
-CFLAGS+=-Wall -DFKEYS -DREGEX -DXKEYS -O0
+CFLAGS+=-Wall -DFKEYS -DREGEX -DXKEYS
 
 SRCS=	autoexec.c basic.c buffer.c cinfo.c dir.c display.c \
 	echo.c extend.c file.c fileio.c funmap.c help.c kbd.c keymap.c \
@@ -34,7 +34,7 @@ DPADD+=	${LIBM}
 # No non-ELF arches support shared objects.
 .include <bsd.own.mk>
 .if ${ELF_TOOLCHAIN} == "yes"
-CFLAGS+=-DUSE_DL
+CFLAGS+=-DUSE_DL -O0
 SRCS += dynload.c
 .endif
 
