@@ -48,8 +48,8 @@
 # define MAXPATHLEN 1024
 #endif
 
-static void make_filename(const char *name, char *filename);
-static void make_init_fn(const char *name, char *init_fn);
+static void make_filename(const char *name, char *filename, size_t len);
+static void make_init_fn(const char *name, char *init_fn, size_t len);
 
 typedef void *HMODULE;
 typedef void (*FARPROC)();
@@ -97,8 +97,8 @@ pointer scm_load_ext(scheme *sc, pointer args)
 
    if ((args != sc->NIL) && is_string((first_arg = pair_car(args)))) {
       name = string_value(first_arg);
-      make_filename(name,filename);
-      make_init_fn(name,init_fn);
+      make_filename(name,filename, sizeof(filename));
+      make_init_fn(name,init_fn, sizeof(init_fn));
       dll_handle = dl_attach(filename);
       if (dll_handle == 0) {
          retval = sc -> F;
@@ -121,20 +121,20 @@ pointer scm_load_ext(scheme *sc, pointer args)
   return(retval);
 }
 
-static void make_filename(const char *name, char *filename) {
- (void)strlcpy(filename,name,sizeof(filename));
- (void)strlcat(filename,SUFFIX,sizeof(filename));
+static void make_filename(const char *name, char *filename, size_t len) {
+ (void)strlcpy(filename,name,len);
+ (void)strlcat(filename,SUFFIX,len);
 }
 
-static void make_init_fn(const char *name, char *init_fn) {
+static void make_init_fn(const char *name, char *init_fn, size_t len) {
  const char *p=strrchr(name,'/');
  if(p==0) {
      p=name;
  } else {
      p++;
  }
- (void)strlcpy(init_fn,"init_",sizeof(init_fn));
- (void)strlcat(init_fn,p,sizeof(init_fn));
+ (void)strlcpy(init_fn,"init_",len);
+ (void)strlcat(init_fn,p,len);
 }
 
 

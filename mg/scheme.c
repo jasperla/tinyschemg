@@ -1582,7 +1582,7 @@ static int realloc_port_string(scheme *sc, port *p)
   if(str) {
     memset(str,' ',new_size-1);
     str[new_size-1]='\0';
-    (void)strlcpy(str,start,sizeof(str));
+    (void)strlcpy(str,start,new_size);
     p->rep.string.start=str;
     p->rep.string.past_the_end=str+new_size-1;
     p->rep.string.curr-=start-str;
